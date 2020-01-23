@@ -6,7 +6,10 @@ import StyledVideo from './styled-component'
 class VideoPlayer extends Component {
   static propTypes = {
     /**
-     * source:
+     * source: {
+     *   src:
+     *   type: MIME Type e.g. video/mp4
+     * }
      */
     source: PropTypes.shape({
       src: PropTypes.string,
@@ -17,8 +20,7 @@ class VideoPlayer extends Component {
   render() {
     return (
       <div className='video-wrapper'>
-        <StyledVideo controls>
-          <source src={this.props.source.src} type={this.props.source.type}/>
+        <StyledVideo controls src={this.props.source.src} poster={``}>
           Your browser does not support HTML5 video.
         </StyledVideo>
       </div>)

@@ -17,32 +17,13 @@ class Carousel extends React.Component {
       slidesToShow: PropTypes.number,
       slidesToScroll: PropTypes.number
     }).isRequired,
-    tiles: PropTypes.array.isRequired
+    tiles: PropTypes.array.isRequired,
+    onToggleChecked: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props)
-    this.state = {
-      ...this.props,
-      selectAll: false
-    }
-  }
-
-  toggleChecked = (el) => {
-    this.state.tiles.find(element => element.id === el.target.attributes['data-id'].value).checked = el.target.checked
-    this.setState({
-      tiles: this.state.tiles
-    })
-  }
-
-  toggleCheckAll = () => {
-    this.setState({
-      selectAll: !this.state.selectAll,
-      tiles: this.state.tiles.map((item) => {
-        item.checked = !this.state.selectAll
-        return item
-      })
-    })
+    this.state = {...this.props}
   }
 
   createCarousel = () => {
@@ -54,7 +35,7 @@ class Carousel extends React.Component {
         name={item.name}
         src={item.src}
         checked={item.checked || false}
-        onToggleChecked={this.toggleChecked} />)
+        onToggleChecked={this.props.onToggleChecked} />)
     })
     return carousel
   }
@@ -70,11 +51,6 @@ class Carousel extends React.Component {
     return (
       <StyledCarousel>
         {this.showSlider()}
-        <Button
-          class='btn-primary btn-sm'
-          value='Select All'
-          icon='check-circle'
-          callback={this.toggleCheckAll} />
       </StyledCarousel>
     )
   }

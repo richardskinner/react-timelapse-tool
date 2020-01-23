@@ -1,6 +1,7 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import PropTypes from 'prop-types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faPlus,
   faFileExport,
@@ -28,6 +29,9 @@ library.add(
 )
 
 class Icon extends React.Component {
+  static propTypes = {
+    icon: PropTypes.string.isRequired
+  }
   render() {
     return (<FontAwesomeIcon icon={this.props.icon} />)
   }

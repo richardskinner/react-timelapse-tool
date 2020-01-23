@@ -10,6 +10,7 @@ class Button extends React.Component {
     value: PropTypes.string,
     icon: PropTypes.string
   }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -19,7 +20,7 @@ class Button extends React.Component {
   }
 
   render() {
-    return (<button disabled={this.props.disabled} className={`btn ${this.props.class}`} onClick={() => this.props.callback(this.props.value.toLowerCase())}>
+    return (<button disabled={this.props.disabled} className={`${this.props.class}`} onClick={() => this.props.callback() }>
       <Icon icon={this.props.icon} />
       {this.props.value}
     </button>)
