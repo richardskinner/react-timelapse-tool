@@ -13,14 +13,15 @@ class VideoPlayer extends Component {
      */
     source: PropTypes.shape({
       src: PropTypes.string,
-      type: PropTypes.string
+      type: PropTypes.string,
+      poster: PropTypes.string
     }).isRequired
   }
 
   render() {
     return (
       <div className='video-wrapper'>
-        <StyledVideo controls src={this.props.source.src} poster={``}>
+        <StyledVideo controls src={this.props.source.src} poster={this.props.source.poster}>
           Your browser does not support HTML5 video.
         </StyledVideo>
       </div>)

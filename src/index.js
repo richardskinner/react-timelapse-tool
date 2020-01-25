@@ -10,9 +10,11 @@ export default class ExampleComponent extends Component {
   }
 
   config = {
-    video: {
-      src: 'https://vjs.zencdn.net/v/oceans.mp4',
-      type: 'video/mp4'
+    createCallback: function() {
+      alert('createCallback')
+    },
+    saveCallback: function() {
+      alert('saveCallback')
     },
     carousel: {
       settings: {

@@ -12,7 +12,8 @@ import {
   faPencilAlt,
   faFilter,
   faCheckCircle,
-  faWindowClose
+  faWindowClose,
+  faTimesCircle
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -25,7 +26,8 @@ library.add(
   faPencilAlt,
   faFilter,
   faCheckCircle,
-  faWindowClose
+  faWindowClose,
+  faTimesCircle
 )
 
 class Icon extends React.Component {

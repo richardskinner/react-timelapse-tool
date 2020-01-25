@@ -2,8 +2,10 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import VideoPlayer from './video-player'
 import Carousel from '../components/carousel'
-import styled, {createGlobalStyle} from 'styled-components'
 import Button from './button'
+import Modal from 'react-modal'
+import styled, {createGlobalStyle} from 'styled-components'
+import Icon from './button/Icon'
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -18,15 +20,19 @@ const StyledContainer = styled.div`
 
 const initialState = {
   video: {
-    src: '',
-    type: ''
+    poster: '/logo/logo.jpg',
+    src: 'https://vjs.zencdn.net/v/oceans.mp4',
+    type: 'video/mp4'
   }
 }
+
+Modal.setAppElement('#root')
 
 export default class TimelapseTool extends Component {
   static propTypes = {
     config: PropTypes.shape({
-      video: PropTypes.object,
+      createCallback: PropTypes.func,
+      saveCallback: PropTypes.func,
       carousel: PropTypes.shape({
         settings: PropTypes.object,
         tiles: PropTypes.array
@@ -37,14 +43,25 @@ export default class TimelapseTool extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      video: this.props.config.video,
+      video: initialState.video,
       carousel: this.props.config.carousel,
-      selectAll: false
+      selectAll: false,
+      modalIsOpen: false
     }
+    this.openModal = this.openModal.bind(this)
+    this.closeModal = this.closeModal.bind(this)
+  }
+
+  openModal() {
+    this.setState({modalIsOpen: true})
+  }
+
+  closeModal() {
+    this.setState({modalIsOpen: false})
   }
 
   toggleChecked = (el) => {
-    this.state.config.carousel.tiles.find(element => element.id === el.target.attributes['data-id'].value).checked = el.target.checked
+    this.state.carousel.tiles.find(element => element.id === el.target.attributes['data-id'].value).checked = el.target.checked
     this.setState({
       tiles: this.state.carousel.tiles
     })
@@ -67,12 +84,25 @@ export default class TimelapseTool extends Component {
   resetPlayer = () => {
     this.setState({
       ...this.state,
-      video: initialState.video
+      video: initialState.video,
+      selectAll: false,
+      carousel: {
+        ...this.state.carousel,
+        tiles: this.state.carousel.tiles.map((item) => {
+          item.checked = false
+          return item
+        })
+      }
     })
   }
 
+  isItemsChecked = () => {
+    return this.state.carousel.tiles.filter((v) => {
+      return v.checked === true
+    }).length <= 0
+  }
+
   render() {
-    console.log(this.state)
     return (<StyledContainer>
       <GlobalStyle />
       <VideoPlayer source={this.state.video} />
@@ -83,11 +113,19 @@ export default class TimelapseTool extends Component {
           value='Select All'
           icon='check-circle'
           callback={this.toggleCheckAll} />
-        <Button disabled={true} type='button' class='' icon='pencil-alt' callback={() => alert('BUTTON #1')} value='Create' />
+        <Button disabled={this.isItemsChecked()} type='button' class='' icon='pencil-alt' callback={this.props.config.createCallback} value='Create' />
         <Button disabled={false} type='button' class='' icon='plus' callback={() => this.resetPlayer()} value='New' />
-        <Button disabled={true} type='button' class='btn-link' icon='save' callback={() => alert('BUTTON #3')} value='Save' />
-        <Button disabled={false} type='button' class='' icon='question-circle' callback={() => alert('BUTTON #4')} value='Help' />
+        <Button disabled={this.state.video.src === null} type='button' class='btn-link' icon='save' callback={this.props.config.saveCallback} value='Save' />
+        <Button disabled={false} type='button' class='' icon='question-circle' callback={() => this.openModal()} value='Help' />
       </div>
+      <Modal
+        isOpen={this.state.modalIsOpen}
+        onRequestClose={this.closeModal}
+        contentLabel='Help Modal'
+      >
+        <h2>Help <Icon icon={`question-circle`} /><button style={{'float': 'right'}} onClick={this.closeModal}>close <Icon icon={`times-circle`} /></button></h2>
+        <div>I am a modal</div>
+      </Modal>
     </StyledContainer>)
   }
 }
