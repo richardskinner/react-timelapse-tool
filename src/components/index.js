@@ -20,9 +20,9 @@ const StyledContainer = styled.div`
 
 const initialState = {
   video: {
-    poster: '/logo/logo.jpg',
-    src: 'https://vjs.zencdn.net/v/oceans.mp4',
-    type: 'video/mp4'
+    poster: '',
+    src: '',
+    type: ''
   }
 }
 
@@ -50,6 +50,28 @@ export default class TimelapseTool extends Component {
     }
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
+  }
+
+  createVideo = () => {
+    console.log('createVideo')
+    let newVideo = this.props.config.createCallback(this.getCheckedItems())
+    this.setState({
+      ...this.state,
+      video: newVideo,
+      selectAll: false,
+      carousel: {
+        ...this.state.carousel,
+        tiles: this.state.carousel.tiles.map((item) => {
+          item.checked = false
+          return item
+        })
+      }
+    })
+  }
+
+  saveVideo = () => {
+    console.log('saveVideo')
+    this.props.config.saveCallback(this.state.video)
   }
 
   openModal() {
@@ -81,7 +103,7 @@ export default class TimelapseTool extends Component {
     })
   }
 
-  resetPlayer = () => {
+  resetPlayer() {
     this.setState({
       ...this.state,
       video: initialState.video,
@@ -96,10 +118,14 @@ export default class TimelapseTool extends Component {
     })
   }
 
-  isItemsChecked = () => {
+  getCheckedItems = () => {
     return this.state.carousel.tiles.filter((v) => {
       return v.checked === true
-    }).length <= 0
+    })
+  }
+
+  isItemsChecked = () => {
+    return this.getCheckedItems().length <= 0
   }
 
   render() {
@@ -113,9 +139,9 @@ export default class TimelapseTool extends Component {
           value='Select All'
           icon='check-circle'
           callback={this.toggleCheckAll} />
-        <Button disabled={this.isItemsChecked()} type='button' class='' icon='pencil-alt' callback={this.props.config.createCallback} value='Create' />
+        <Button disabled={this.isItemsChecked()} type='button' class='' icon='pencil-alt' callback={this.createVideo} value='Create' />
         <Button disabled={false} type='button' class='' icon='plus' callback={() => this.resetPlayer()} value='New' />
-        <Button disabled={this.state.video.src === null} type='button' class='btn-link' icon='save' callback={this.props.config.saveCallback} value='Save' />
+        <Button disabled={this.state.video.src === null} type='button' class='btn-link' icon='save' callback={this.saveVideo} value='Save' />
         <Button disabled={false} type='button' class='' icon='question-circle' callback={() => this.openModal()} value='Help' />
       </div>
       <Modal

@@ -10,11 +10,16 @@ export default class ExampleComponent extends Component {
   }
 
   config = {
-    createCallback: function() {
-      alert('createCallback')
+    createCallback: (images) => {
+      // Code to create video and return
+      return {
+        poster: '/logo/logo.jpg', // Optional
+        src: 'https://vjs.zencdn.net/v/oceans.mp4', // Required
+        type: 'video/mp4' // Required
+      }
     },
-    saveCallback: function() {
-      alert('saveCallback')
+    saveCallback: function(video) {
+      // Code to download video locally
     },
     carousel: {
       settings: {
