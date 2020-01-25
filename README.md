@@ -1,13 +1,11 @@
 # react-timelapse-tool
 
-> 
-
 [![NPM](https://img.shields.io/npm/v/react-timelapse-tool.svg)](https://www.npmjs.com/package/react-timelapse-tool)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![MIT](https://camo.githubusercontent.com/f53583e5278740443555de94bff91fbb5d19b99a/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f6c2f72656163742d7365617263682d626f782e7376673f7374796c653d666c61742d737175617265)](https://github.com/richardskinner/react-timelapse-tool/blob/master/LICENSE)
 
 ## Overview
-This is a GUI to display a users images, select and save a timelapse video. 
+This is a GUI to display a users images, select and save a timelapse video. It uses a slick slider for displaying images in a carousel and HTML5 video to play the timelapse video.
 
 ***This is a frontend tool only.***
 
@@ -16,7 +14,8 @@ This is a GUI to display a users images, select and save a timelapse video.
 FFMPEG is *A complete, cross-platform solution to record, convert and stream audio and video.*
 This tool can create such videos but is server side command line tool. You can fire such a command by calling a url to a server which can fire this command.
 
-[FFMPEG](http://www.ffmpeg.org/)
+##### Further FFMPEG Reading
+[FFMPEG Docs](http://www.ffmpeg.org/)
 
 ## Install
 
@@ -28,10 +27,16 @@ npm install --save react-timelapse-tool
 ```jsx
  config = {
     createCallback: function(images) {
-      // Method is fired onclick of create button and passed back the selected images
+      // Method is fired onclick of create button, selected images are passed as a parameter
+      // Return the created video to update the HTML5 player
+      return {
+        poster: 'videoposter.jpg',
+        src: 'video.mp4',
+        type: 'video/mp4',
+      }
     },
     saveCallback: function(video) {
-    	// Method fired onclick of save button and passed back the video
+    	// Method fired onclick of save button, video is paased as a parameter
     },
     carousel: {
       settings: {
@@ -45,18 +50,12 @@ npm install --save react-timelapse-tool
         {
           id: '1',
           src: '/image1.jpg',
-          name: 'baucam01.0',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-01 18:36:00'
+          name: 'image01.0'
         },
         {
           id: '2',
           src: '/image2.jpg',
-          name: 'baucam01.1',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-02 18:36:00'
+          name: 'image01.1'
         }
       ]
     }
@@ -77,6 +76,19 @@ class App extends Component {
   }
 }
 ```
+
+## Props
+* config
+	* carousel
+		* id
+		* src
+		* name
+	* createCallback
+	* saveCallback
+
+## Built With
+
+* [React Slick Slider](https://www.npmjs.com/package/react-slick-slider)
 
 ## License
 
