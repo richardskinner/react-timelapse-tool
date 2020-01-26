@@ -2,7 +2,6 @@ import React from 'react'
 import {mount} from 'enzyme'
 import Carousel from '../index'
 import carousel from '../__mocks__/carousel'
-import CarouselItem from '../CarouselItem'
 
 describe('Carousel Component', () => {
   let carouselItems
@@ -12,7 +11,7 @@ describe('Carousel Component', () => {
   beforeEach(() => {
     carouselSettings = carousel.settings
     carouselItems = carousel.items
-    wrapper = mount(<Carousel settings={carouselSettings} tiles={carouselItems} />)
+    wrapper = mount(<Carousel settings={carouselSettings} tiles={carouselItems} onToggleChecked={() => {}} />)
   })
 
   it('renders slider without crashing', () => {
@@ -24,11 +23,11 @@ describe('Carousel Component', () => {
     expect(wrapper.find('.slick-slide:not(.slick-cloned)').length).toEqual(20)
   })
 
-  it('should set checked on tile when clicked', () => {
-    // ...
-  })
-
-  it('displays a message instead of the slider when no tiles exist', () => {
-    // ...
-  })
+  // it('should set checked on tile when clicked', () => {
+  //   // ...
+  // })
+  //
+  // it('displays a message instead of the slider when no tiles exist', () => {
+  //   // ...
+  // })
 })
