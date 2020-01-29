@@ -1,209 +1,161 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import VideoPlayer from './components/video-player'
+import Carousel from './components/carousel'
+import Button from './components/button'
+import Modal from 'react-modal'
+import styled, {createGlobalStyle} from 'styled-components'
+import Icon from './components/button/Icon'
 
-import styles from './styles.css'
-import TimelapseTool from './components'
+const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+`
 
-export default class ExampleComponent extends Component {
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const ControlsContainer = styled.div`
+  margin-top: 30px;
+`
+
+const initialState = {
+  video: {
+    poster: '',
+    src: '',
+    type: ''
+  }
+}
+
+Modal.setAppElement('#root')
+
+export default class TimelapseTool extends Component {
   static propTypes = {
-    text: PropTypes.string
+    config: PropTypes.shape({
+      carousel: PropTypes.shape({
+        settings: PropTypes.object,
+        tiles: PropTypes.array
+      })
+    }),
+    onCreate: PropTypes.func,
+    onSave: PropTypes.func
   }
 
-  config = {
-    createCallback: (images) => {
-      // Code to create video and return
-      return {
-        poster: '/logo/logo.jpg', // Optional
-        src: 'https://vjs.zencdn.net/v/oceans.mp4', // Required
-        type: 'video/mp4' // Required
-      }
-    },
-    saveCallback: function(video) {
-      // Code to download video locally
-    },
-    carousel: {
-      settings: {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 8,
-        slidesToScroll: 1
-      },
-      tiles: [
-        {
-          id: '1',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.0',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-01 18:36:00'
-        },
-        {
-          id: '2',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.1',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-02 18:36:00'
-        },
-        {
-          id: '3',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.2',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-03 18:36:00'
-        },
-        {
-          id: '4',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.3',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-04 18:36:00'
-        },
-        {
-          id: '5',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.4',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-05 18:36:00'
-        },
-        {
-          id: '6',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.5',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-06 18:36:00'
-        },
-        {
-          id: '7',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.6',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-07 18:36:00'
-        },
-        {
-          id: '8',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.7',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-08 18:36:00'
-        },
-        {
-          id: '9',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.8',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-09 18:36:00'
-        },
-        {
-          id: '10',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.9',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-10 18:36:00'
-        },
-        {
-          id: '11',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.0',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-01 18:36:00'
-        },
-        {
-          id: '12',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.1',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-02 18:36:00'
-        },
-        {
-          id: '13',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.2',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-03 18:36:00'
-        },
-        {
-          id: '14',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.3',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-04 18:36:00'
-        },
-        {
-          id: '15',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.4',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-05 18:36:00'
-        },
-        {
-          id: '16',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.5',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-06 18:36:00'
-        },
-        {
-          id: '17',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.6',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-07 18:36:00'
-        },
-        {
-          id: '18',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.7',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-08 18:36:00'
-        },
-        {
-          id: '19',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.8',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-09 18:36:00'
-        },
-        {
-          id: '20',
-          src: '/baucam04-2019-06-17_17_35_02.237.jpg',
-          name: 'baucam01.9',
-          width: '3072',
-          height: '2048',
-          created_at: '2019-05-10 18:36:00'
-        }
-      ]
+  constructor(props) {
+    super(props)
+    this.state = {
+      video: initialState.video,
+      carousel: this.props.config.carousel,
+      selectAll: false,
+      modalIsOpen: false
     }
+    this.openModal = this.openModal.bind(this)
+    this.closeModal = this.closeModal.bind(this)
+  }
+
+  createVideo = () => {
+    console.info('createVideo')
+    let newVideo = this.props.onCreate(this.getCheckedItems())
+    this.setState({
+      ...this.state,
+      video: newVideo,
+      selectAll: false,
+      carousel: {
+        ...this.state.carousel,
+        tiles: this.state.carousel.tiles.map((item) => {
+          item.checked = false
+          return item
+        })
+      }
+    })
+  }
+
+  saveVideo = () => {
+    console.info('saveVideo')
+    this.props.onSave(this.state.video)
+  }
+
+  openModal() {
+    this.setState({modalIsOpen: true})
+  }
+
+  closeModal() {
+    this.setState({modalIsOpen: false})
+  }
+
+  toggleChecked = (el) => {
+    this.state.carousel.tiles.find(element => element.id === el.target.attributes['data-id'].value).checked = el.target.checked
+    this.setState({
+      tiles: this.state.carousel.tiles
+    })
+  }
+
+  toggleCheckAll = () => {
+    this.setState({
+      ...this.state,
+      selectAll: !this.state.selectAll,
+      carousel: {
+        ...this.state.carousel,
+        tiles: this.state.carousel.tiles.map((item) => {
+          item.checked = !this.state.selectAll
+          return item
+        })
+      }
+    })
+  }
+
+  resetPlayer() {
+    this.setState({
+      ...this.state,
+      video: initialState.video,
+      selectAll: false,
+      carousel: {
+        ...this.state.carousel,
+        tiles: this.state.carousel.tiles.map((item) => {
+          item.checked = false
+          return item
+        })
+      }
+    })
+  }
+
+  getCheckedItems = () => {
+    return this.state.carousel.tiles.filter((v) => {
+      return v.checked === true
+    })
+  }
+
+  isItemsChecked = () => {
+    return this.getCheckedItems().length <= 0
   }
 
   render() {
-    const {
-      text
-    } = this.props
-
-    return (
-      <div className={styles.test}>
-        Example Component: {text}
-        <TimelapseTool config={this.config} />
-      </div>
-    )
+    return (<StyledContainer>
+      <GlobalStyle />
+      <VideoPlayer source={this.state.video} />
+      <Carousel tiles={this.state.carousel.tiles} settings={this.state.carousel.settings} onToggleChecked={this.toggleChecked} />
+      <ControlsContainer className='controls-wrapper'>
+        <Button
+          class='btn-primary btn-sm'
+          value='Select All'
+          icon='check-circle'
+          callback={this.toggleCheckAll} />
+        <Button disabled={this.isItemsChecked()} type='button' class='' icon='pencil-alt' callback={this.createVideo} value='Create' />
+        <Button disabled={false} type='button' class='' icon='plus' callback={() => this.resetPlayer()} value='New' />
+        <Button disabled={this.state.video.src === null} type='button' class='btn-link' icon='save' callback={this.saveVideo} value='Save' />
+        <Button disabled={false} type='button' class='' icon='question-circle' callback={() => this.openModal()} value='Help' />
+      </ControlsContainer>
+      <Modal
+        isOpen={this.state.modalIsOpen}
+        onRequestClose={this.closeModal}
+        contentLabel='Help Modal'
+      >
+        <h2>Help <Icon icon={`question-circle`} /><button style={{'float': 'right'}} onClick={this.closeModal}>close <Icon icon={`times-circle`} /></button></h2>
+        <div>I am a modal</div>
+      </Modal>
+    </StyledContainer>)
   }
 }
