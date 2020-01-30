@@ -63,13 +63,17 @@ class App extends Component {
 ```
 
 ## Props
+
 * config
 	* carousel
 		* id
 		* src
 		* name
-	* createCallback
-	* saveCallback
+
+## Callbacks
+
+* onCreate
+* onSave
 
 ## Built With
 
