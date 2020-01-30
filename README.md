@@ -25,53 +25,38 @@ npm install --save react-timelapse-tool
 
 ## Usage
 ```jsx
- config = {
-    createCallback: function(images) {
-      // Method is fired onclick of create button, selected images are passed as a parameter
-      // Return the created video to update the HTML5 player
-      return {
-        poster: 'videoposter.jpg',
-        src: 'video.mp4',
-        type: 'video/mp4',
-      }
-    },
-    saveCallback: function(video) {
-    	// Method fired onclick of save button, video is paased as a parameter
-    },
-    carousel: {
-      settings: {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 8,
-        slidesToScroll: 1
-      },
-      tiles: [
-        {
-          id: '1',
-          src: '/image1.jpg',
-          name: 'image01.0'
-        },
-        {
-          id: '2',
-          src: '/image2.jpg',
-          name: 'image01.1'
-        }
-      ]
-    }
-  }
-
-```
-
-```jsx
 import React, { Component } from 'react'
-
 import TimelapseTool from 'react-timelapse-tool'
 
 class App extends Component {
+
+    config = {
+        carousel: {
+          settings: {
+            dots: true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 8,
+            slidesToScroll: 1
+          },
+          tiles: [
+            {
+              id: '1',
+              src: '/image1.jpg',
+              name: 'image01.0'
+            },
+            {
+              id: '2',
+              src: '/image2.jpg',
+              name: 'image01.1'
+            }
+          ]
+        }
+    }
+
   render () {
     return (
-      <TimelapseTool config={this.config}} />
+      <TimelapseTool config={this.config}} onCreate={() => console.log('Create Video')} onSave={() => console.log('Save Video')} />
     )
   }
 }
