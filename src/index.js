@@ -137,16 +137,16 @@ export default class TimelapseTool extends Component {
       <GlobalStyle />
       <VideoPlayer source={this.state.video} />
       <Carousel tiles={this.state.carousel.tiles} settings={this.state.carousel.settings} onToggleChecked={this.toggleChecked} />
-      <ControlsContainer className='controls-wrapper'>
+      <ControlsContainer className='timelapse-controls-wrapper'>
         <Button
-          class='btn-primary btn-sm'
+          class='timelapse-controls-btn'
           value='Select All'
           icon='check-circle'
           callback={this.toggleCheckAll} />
-        <Button disabled={this.isItemsChecked()} type='button' class='' icon='pencil-alt' callback={this.createVideo} value='Create' />
-        <Button disabled={false} type='button' class='' icon='plus' callback={() => this.resetPlayer()} value='New' />
-        <Button disabled={this.state.video.src === null} type='button' class='btn-link' icon='save' callback={this.saveVideo} value='Save' />
-        <Button disabled={false} type='button' class='' icon='question-circle' callback={() => this.openModal()} value='Help' />
+        <Button disabled={this.isItemsChecked()} class='timelapse-controls-btn' type='button' icon='pencil-alt' callback={this.createVideo} value='Create' />
+        <Button disabled={false} class='timelapse-controls-btn' type='button' icon='plus' callback={() => this.resetPlayer()} value='New' />
+        <Button disabled={this.state.video.src === null} class='timelapse-controls-btn' type='button' icon='save' callback={this.saveVideo} value='Save' />
+        <Button disabled={false} class='timelapse-controls-btn' type='button' icon='question-circle' callback={() => this.openModal()} value='Help' />
       </ControlsContainer>
       <Modal
         isOpen={this.state.modalIsOpen}
@@ -154,7 +154,7 @@ export default class TimelapseTool extends Component {
         contentLabel='Help Modal'
       >
         <h2>Help <Icon icon={`question-circle`} /><button style={{'float': 'right'}} onClick={this.closeModal}>close <Icon icon={`times-circle`} /></button></h2>
-        <div>I am a modal</div>
+        <p>Some helpful text.</p>
       </Modal>
     </StyledContainer>)
   }
