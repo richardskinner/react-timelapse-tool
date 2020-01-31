@@ -146,7 +146,6 @@ export default class TimelapseTool extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (<StyledContainer>
       <GlobalStyle />
       <VideoPlayer source={this.state.video} />
