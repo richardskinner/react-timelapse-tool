@@ -1,4 +1,8 @@
 {
+  "fpsSlider": {
+    "min": 0,
+    "max": 100
+  },
   "carousel": {
     "settings": {
       "dots": true,

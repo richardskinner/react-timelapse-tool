@@ -6,6 +6,7 @@ import Button from './components/button'
 import Modal from 'react-modal'
 import styled, {createGlobalStyle} from 'styled-components'
 import Icon from './components/button/Icon'
+import RangeSlider from './components/range-slider'
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -38,6 +39,10 @@ export default class TimelapseTool extends Component {
       carousel: PropTypes.shape({
         settings: PropTypes.object,
         tiles: PropTypes.array
+      }),
+      fpsSlider: PropTypes.shape({
+        min: PropTypes.number,
+        max: PropTypes.number
       })
     }),
     onCreate: PropTypes.func,
@@ -50,7 +55,8 @@ export default class TimelapseTool extends Component {
       video: initialState.video,
       carousel: this.props.config.carousel,
       selectAll: false,
-      modalIsOpen: false
+      modalIsOpen: false,
+      fps: 0
     }
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
@@ -58,7 +64,7 @@ export default class TimelapseTool extends Component {
 
   createVideo = () => {
     console.info('createVideo')
-    let newVideo = this.props.onCreate(this.getCheckedItems())
+    let newVideo = this.props.onCreate({images: this.getCheckedItems(), fps: this.state.fps})
     this.setState({
       ...this.state,
       video: newVideo,
@@ -132,12 +138,21 @@ export default class TimelapseTool extends Component {
     return this.getCheckedItems().length <= 0
   }
 
+  setRangeValue = (el) => {
+    this.setState({
+      ...this.state,
+      fps: parseInt(el.target.value)
+    })
+  }
+
   render() {
+    console.log(this.state)
     return (<StyledContainer>
       <GlobalStyle />
       <VideoPlayer source={this.state.video} />
       <Carousel tiles={this.state.carousel.tiles} settings={this.state.carousel.settings} onToggleChecked={this.toggleChecked} />
       <ControlsContainer className='timelapse-controls-wrapper'>
+        <RangeSlider min={this.props.config.fpsSlider.min} max={this.props.config.fpsSlider.max} value={this.state.fps} setRangeSliderValue={this.setRangeValue} />
         <Button
           class='timelapse-controls-btn'
           value='Select All'

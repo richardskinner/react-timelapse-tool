@@ -31,6 +31,10 @@ import TimelapseTool from 'react-timelapse-tool'
 class App extends Component {
 
     config = {
+        fpsSlider: {
+          min: 0,
+          max: 100
+        },
         carousel: {
           settings: {
             dots: true,
