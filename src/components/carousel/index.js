@@ -26,6 +26,13 @@ class Carousel extends React.Component {
     this.state = {...this.props}
   }
 
+  static getDerivedStateFromProps(props, state) {
+    return {
+      ...state,
+      tiles: props.tiles
+    }
+  }
+
   createCarousel = () => {
     let carousel = []
     this.state.tiles.map((item, key) => {

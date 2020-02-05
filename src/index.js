@@ -28,7 +28,22 @@ const initialState = {
     poster: '',
     src: '',
     type: ''
-  }
+  },
+  carousel: {
+    config: {
+      settings: {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 8,
+        slidesToScroll: 1
+      },
+      tiles: []
+    }
+  },
+  selectAll: false,
+  modalIsOpen: false,
+  fps: 0
 }
 
 Modal.setAppElement('#root')
@@ -52,14 +67,18 @@ export default class TimelapseTool extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      video: initialState.video,
-      carousel: this.props.config.carousel,
-      selectAll: false,
-      modalIsOpen: false,
-      fps: 0
+      ...initialState,
+      carousel: this.props.config.carousel
     }
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return {
+      ...state,
+      carousel: props.config.carousel
+    }
   }
 
   createVideo = () => {

@@ -60,7 +60,7 @@ class App extends Component {
 
   render () {
     return (
-      <TimelapseTool config={this.config}} onCreate={() => console.log('Create Video')} onSave={() => console.log('Save Video')} />
+      <TimelapseTool config={this.state.config}} onCreate={() => console.log('Create Video')} onSave={() => console.log('Save Video')} />
     )
   }
 }
