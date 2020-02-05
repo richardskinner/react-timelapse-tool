@@ -5,10 +5,34 @@ import Jumbotron from '../components/jumbotron'
 
 import data from '../static/data.json'
 import video from '../static/video.json'
+import updateTiles from '../static/tiles-change-state'
+import updateVideo from '../static/video-change-state'
 
 class IndexPage extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      config: data,
+      video: video
+    }
+  }
+
   componentDidMount() {
     Prism.highlightAll()
+  }
+
+  updateTimelapse = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      config: {
+        ...prevState.config,
+        carousel: {
+          ...prevState.config.carousel,
+          ...updateTiles
+        }
+      },
+      video: updateVideo
+    }))
   }
 
   render() {
@@ -77,7 +101,8 @@ render() {
           <section className='section'>
             <h2>Demo</h2>
             <div className='react-search-box-container'>
-              <TimelapseTool config={data} onCreate={() => video} onSave={() => console.log('onSave')} />
+              <TimelapseTool config={this.state.config} onCreate={() => this.state.video} onSave={() => console.log('onSave')} />
+              <button type='button' onClick={this.updateTimelapse}>Update Carousel</button>
             </div>
           </section>
           <section className='section'>
