@@ -171,15 +171,17 @@ export default class TimelapseTool extends Component {
       <Carousel tiles={this.state.carousel.tiles} settings={this.state.carousel.settings} onToggleChecked={this.toggleChecked} />
       <ControlsContainer className='timelapse-controls-wrapper'>
         <RangeSlider min={this.props.config.fpsSlider.min} max={this.props.config.fpsSlider.max} value={this.state.fps} setRangeSliderValue={this.setRangeValue} />
-        <Button
-          class='timelapse-controls-btn'
-          value='Select All'
-          icon='check-circle'
-          callback={this.toggleCheckAll} />
-        <Button disabled={this.isItemsChecked()} class='timelapse-controls-btn' type='button' icon='pencil-alt' callback={this.createVideo} value='Create' />
-        <Button disabled={false} class='timelapse-controls-btn' type='button' icon='plus' callback={() => this.resetPlayer()} value='New' />
-        <Button disabled={this.state.video.src === null} class='timelapse-controls-btn' type='button' icon='save' callback={this.saveVideo} value='Save' />
-        <Button disabled={false} class='timelapse-controls-btn' type='button' icon='question-circle' callback={() => this.openModal()} value='Help' />
+        <div className='timelapse-btn-wrapper'>
+          <Button
+            class='timelapse-controls-btn'
+            value='Select All'
+            icon='check-circle'
+            callback={this.toggleCheckAll} />
+          <Button disabled={this.isItemsChecked()} class='timelapse-controls-btn' type='button' icon='pencil-alt' callback={this.createVideo} value='Create' />
+          <Button disabled={false} class='timelapse-controls-btn' type='button' icon='plus' callback={() => this.resetPlayer()} value='New' />
+          <Button disabled={this.state.video.src === null} class='timelapse-controls-btn' type='button' icon='save' callback={this.saveVideo} value='Save' />
+          <Button disabled={false} class='timelapse-controls-btn' type='button' icon='question-circle' callback={() => this.openModal()} value='Help' />
+        </div>
       </ControlsContainer>
       <Modal
         isOpen={this.state.modalIsOpen}
