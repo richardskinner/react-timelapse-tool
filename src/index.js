@@ -81,9 +81,9 @@ export default class TimelapseTool extends Component {
     }
   }
 
-  createVideo = () => {
+  createVideo = async () => {
     console.info('createVideo')
-    let newVideo = this.props.onCreate({images: this.getCheckedItems(), fps: this.state.fps})
+    let newVideo = await this.props.onCreate({images: this.getCheckedItems(), fps: this.state.fps})
     this.setState({
       ...this.state,
       video: newVideo,
